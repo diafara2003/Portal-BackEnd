@@ -127,13 +127,13 @@ namespace API
 
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(
-             Path.Combine(env.ContentRootPath, "clientapp/build/assets")),
-                RequestPath = "/assets"
-            });
+            //app.UseStaticFiles();
+            //app.UseStaticFiles(new StaticFileOptions
+            //{
+            //    FileProvider = new PhysicalFileProvider(
+            // Path.Combine(env.ContentRootPath, "clientapp/build/assets")),
+            //    RequestPath = "/assets"
+            //});
           
 
 

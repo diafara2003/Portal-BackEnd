@@ -806,6 +806,24 @@ namespace Code.Repository.RepositoryBL.Operations
             };
         }
 
+        public TerSISO GetInfoSISOId(int id,int tercero=0)
+        {
+            ApplicationDatabaseContext objcnn = new ApplicationDatabaseContext();
+
+
+
+            return objcnn.terSISO.FirstOrDefault(c => c.Id == id) ?? new TerSISO()
+            {
+                Id = 0,
+                IdTercero = tercero,
+                ProgramaAmbiental = false,
+                ProgramaFactoresRiesgo = false,
+                ProgramaSaludOcupacional = false,
+                ProgramaSeguridadEhigiene = false,
+                TieneComiteSO = false
+            };
+        }
+
         public ResponseDTO SaveInfoSISO(TerSISO info, int tercero, int usuario)
         {
             bool isNew = false;
@@ -831,7 +849,7 @@ namespace Code.Repository.RepositoryBL.Operations
             else
             {
 
-                var current = objcnn.terSISO.Find(info.Id);
+                var current = GetInfoSISOId(info.Id,info.IdTercero);
                 _datos = new AuditoriaBL().diferenciasAudit(info.MapToAuditoria(), current.MapToAuditoria());
                 objcnn.Entry(siso).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 
