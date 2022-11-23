@@ -441,6 +441,10 @@ $RECYCLE.BIN/
 ##
 ## Visual Studio Code
 ##
+
+##
+## Visual Studio Code
+##
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
@@ -449,12 +453,41 @@ $RECYCLE.BIN/
 .dtbcache.v2
 
 
- librerias/API/bin/Debug/*
+.vs/Proveedores/v16/.suo
+librerias/API/bin/Debug/*
+librerias/API/obj/*
+librerias/API/archivos/*
+librerias/Error/*
+librerias/Code.Repository.EntityFramework/bin/Debug/*
+librerias/Code.Repository.EntityFramework/obj/*
+librerias/Code.Repository.Model/bin/Debug/*
+librerias/Code.Repository.Model/obj/*
+librerias/Code.Repository.Repository/bin/Debug/*
+librerias/Code.Repository.Repository/bin/*
+librerias/Code.Repository.Repository/obj/Debug/*
+librerias/Code.Repository.Session/Session/bin/Release/*
+librerias/Code.Repository.Session/Session/obj/*
+librerias/Code.Repository.Document/Code.Repository.Document/obj/*
+librerias/Code.Repository.Document/Code.Repository.Document/bin/debug/*
+librerias/Code.Repository.Email/obj/*
+librerias/Code.Repository.Email/bin/Debug/*
 
- librerias/API/Archivos/*
+librerias/API/bin/Release/*
+librerias/Code.Repository.EntityFramework/bin/Release/*
+librerias/Code.Repository.Model/bin/Release/*
+librerias/Code.Repository.Repository/Release/*
+librerias/Code.Repository.Repository/bin/Release/*
+librerias/Code.Repository.Session/Session/bin/Release/*
+librerias/Code.Repository.Document/Code.Repository.Document/bin/Release/*
+librerias/Code.Repository.Email/bin/Release/*
 
 
- 
+.vs
+.vs/Proveedores/*
+
+
+librerias/API/Archivos/*
+
 .vs
 .vs/Proveedores/*
 

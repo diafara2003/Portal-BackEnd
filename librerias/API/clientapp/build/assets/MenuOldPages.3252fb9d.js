@@ -1,1 +1,0 @@
-import{j as r}from"./index.ad9b7e92.js";const a=()=>{var e;const t=(e=localStorage.getItem("APP_PROVEEDOR_MENU_V01"))!=null?e:"";debugger;return r("div",{children:r("iframe",{id:"frmOpOld",style:{width:"100%",padding:0,margin:0,height:"calc(100vh - 84px)",border:0},src:t})})};export{a as MenuOldPages,a as default};
