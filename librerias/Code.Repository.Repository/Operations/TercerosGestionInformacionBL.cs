@@ -652,35 +652,42 @@ namespace Code.Repository.RepositoryBL.Operations
             }; ;
         }
 
-        public ResponseDTO SaveInfoTributaria(TerInfoTributaria info)
+        public ResponseDTO SaveInfoTributaria(TerInfoTributaria info, int _idTercero, int _idUser)
         {
             ApplicationDatabaseContext objcnn = new ApplicationDatabaseContext();
             ResponseDTO objResponse = new ResponseDTO();
+
+            Tuple<string, string> _datos = null;
 
             if (info.Id == 0)
             {
 
                 objcnn.terInfotributaria.Add(info);
-
-                objResponse.mensaje = "Se guando correctamente.";
+                objResponse.mensaje = "Se guardo correctamente.";
                 objResponse.codigo = info.Id;
+
+                _datos = new AuditoriaBL().diferenciasAudit(info.MapToAuditoria(), new TerInfoTributaria().MapToAuditoria() );
+                objcnn.SaveChangesAuditoria(_datos.Item1, _datos.Item2, _idUser, _idTercero, (int)TipoAuditoria.InformacionTributaria, false, true, Opcion: "Informacion tributaria");
             }
             else
             {
-
+                var _oldData = getAuditoriaInfTributaria(info.Id);
                 objcnn.Entry(info).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-
                 objResponse.mensaje = "Se modifico correctamente.";
                 objResponse.codigo = info.Id;
+
+                _datos = new AuditoriaBL().diferenciasAudit(info.MapToAuditoria(), _oldData);
+                objcnn.SaveChangesAuditoria(_datos.Item1, _datos.Item2, _idUser, _idTercero, (int)TipoAuditoria.InformacionTributaria, false, false, Opcion: "Informacion tributaria");
             }
-
-
-            objcnn.SaveChanges();
-
 
             return objResponse;
         }
+        TerInfTributarioDTOAuditoria getAuditoriaInfTributaria (int id)
+        {
+            ApplicationDatabaseContext objcnn = new ApplicationDatabaseContext();
 
+            return objcnn.terInfotributaria.Find(id).MapToAuditoria();
+        }
         public IEnumerable<TipoCuentaBancaria> GetTipoCuentaBancaria()
         {
             ApplicationDatabaseContext objcnn = new ApplicationDatabaseContext();

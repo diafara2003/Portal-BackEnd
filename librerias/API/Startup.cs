@@ -122,19 +122,21 @@ namespace API
             app.UseMiddleware<ErrorHandlerMiddleware>();
 
             // global cors policy
-          
+
 
 
 
             app.UseHttpsRedirection();
-            //app.UseStaticFiles();
-            //app.UseStaticFiles(new StaticFileOptions
-            //{
-            //    FileProvider = new PhysicalFileProvider(
-            // Path.Combine(env.ContentRootPath, "clientapp/build/assets")),
-            //    RequestPath = "/assets"
-            //});
-          
+            app.UseStaticFiles();
+
+            if (env.IsDevelopment())
+                app.UseStaticFiles(new StaticFileOptions
+                {
+                    FileProvider = new PhysicalFileProvider(
+             Path.Combine(env.ContentRootPath, "clientapp/build/assets")),
+                    RequestPath = "/assets"
+                });
+
 
 
             app.UseRouting();
@@ -143,7 +145,7 @@ namespace API
 
             app.UseAuthentication();
             app.UseAuthorization();
-           
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -153,10 +155,10 @@ namespace API
                 endpoints.MapControllers();
             });
 
-            
 
-            //Inicia el Cliente            
-            app.UseSpa(spa =>
+            if (env.IsDevelopment())
+                //Inicia el Cliente            
+                app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "clientapp";
                 // if (env.IsDevelopment()) { spa.UseReactDevelopmentServer(npmScript: "start"); }
@@ -167,7 +169,7 @@ namespace API
             //});
 
 
-            
+
         }
     }
 }

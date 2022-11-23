@@ -50,7 +50,7 @@ namespace API.Controllers.Notificaciones
         public IActionResult PostnotificacionProveedor(Code.Repository.Model.DTO.Notificaciones.NotificacionDTO request)
         {
             var currentUser = _IUser.GetUser(HttpContext);
-            return Ok(new NotificacionesBL().AgregarNotificacion(request, TipoNotificaciones.Proveddores, currentUser.idEmpresa));
+            return Ok(new NotificacionesBL().AgregarNotificacion(request, TipoNotificaciones.Proveddores, currentUser.idEmpresa, currentUser.id));
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace API.Controllers.Notificaciones
         public IActionResult PostnotificacionLicitacion(Code.Repository.Model.DTO.Notificaciones.NotificacionDTO request)
         {
             var currentUser = _IUser.GetUser(HttpContext);
-            return Ok(new NotificacionesBL().AgregarNotificacion(request, TipoNotificaciones.Licitaciones, currentUser.idEmpresa));
+            return Ok(new NotificacionesBL().AgregarNotificacion(request, TipoNotificaciones.Licitaciones, currentUser.idEmpresa, currentUser.id));
         }
 
 
@@ -71,7 +71,7 @@ namespace API.Controllers.Notificaciones
         public IActionResult DeleteNotificacionLicitacion(int id)
         {
             var currentUser = _IUser.GetUser(HttpContext);
-            return Ok(new NotificacionesBL().EliminarNotificacion(id, currentUser.id));
+            return Ok(new NotificacionesBL().EliminarNotificacion(id, currentUser.idEmpresa, currentUser.id));
         }
 
 

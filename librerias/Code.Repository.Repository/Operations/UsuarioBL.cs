@@ -195,7 +195,7 @@ namespace Code.Repository.RepositoryBL.Operations
                         _usercurrently.UserNivel = 4;
 
                         objcnn.Entry(_usercurrently).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                        objcnn.SaveChangesAuditoria(_datos.Item1, _datos.Item2, usuario, tercero, (int)TipoAuditoria.AdminUsuarios, false, false, Opcion: "Administracion de usuarios");
+                        objcnn.SaveChangesAuditoria(_datos.Item1, _datos.Item2,usuario, request.id, (int)TipoAuditoria.AdminUsuarios, false, false, Opcion: "Administracion de usuarios");
 
                     }
                     else
@@ -243,11 +243,13 @@ namespace Code.Repository.RepositoryBL.Operations
 
                     Tuple<string, string> _datos = new AuditoriaBL().diferenciasAudit(request.MapToAuditoria(), new UsuarioDTOAuditoria() { });
 
+                    objcnn.usuario.Add(_userRequest);
+
                     objcnn.SaveChangesAuditoria(_datos.Item1, _datos.Item2, usuario, tercero, (int)TipoAuditoria.AdminUsuarios, false, true, Opcion: "Administracion de usuarios");
                     request.id = _userRequest.UserId;
                 }
             }
-            objcnn.SaveChanges();
+            //objcnn.SaveChanges();
             Tuple<ResponseDTO, UsuarioDTO> resultado = new Tuple<ResponseDTO, UsuarioDTO>(response, request);
 
             return resultado;
@@ -277,22 +279,22 @@ namespace Code.Repository.RepositoryBL.Operations
             return objcnn.usuario.Find(id).MapToDTO();
         }
 
-        public ResponseDTO CambiarEstadoUsuario(int usuario, estadoUsuario isActivo, int tercero, int usuarioSesion)
+        public ResponseDTO CambiarEstadoUsuario(int id, estadoUsuario isActivo, int usuarioSesion)
         {
             ResponseDTO objResultado = new ResponseDTO();
             ApplicationDatabaseContext objcnn = new ApplicationDatabaseContext();
 
-            var _user = objcnn.usuario.Find(usuario);
+            var _user = objcnn.usuario.Find(id);
 
-            _user.UserEstado = (int)isActivo;
-
+           
 
             Tuple<string, string> _datos = new AuditoriaBL().diferenciasAudit(
                 new UsuarioDTOAuditoria() { UserEstado = (int)isActivo },
                 new UsuarioDTOAuditoria() { UserEstado = _user.UserEstado });
 
+            _user.UserEstado = (int)isActivo;
 
-            objcnn.SaveChangesAuditoria(_datos.Item1, _datos.Item2, usuarioSesion, tercero, (int)TipoAuditoria.AdminUsuarios, false, true, Opcion: "Administracion de usuarios");
+            objcnn.SaveChangesAuditoria(_datos.Item1, _datos.Item2, usuarioSesion, id, (int)TipoAuditoria.AdminUsuarios, false, true, Opcion: "Administracion de usuarios");
 
             return objResultado;
         }

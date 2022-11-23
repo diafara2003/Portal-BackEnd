@@ -241,9 +241,13 @@ namespace Code.Repository.RepositoryBL.Operations
         {
             ApplicationDatabaseContext objcnn = new ApplicationDatabaseContext();
 
-            string textoEspecialidad = objcnn.especialidadTercero.Find(especialidades.id).EspTexto;
+            var _Especialidad = objcnn.especialidadTercero.Find(especialidades.id);
+            var _Cateroria = objcnn.categoriasTercero.Find(_Especialidad.EspIdCategoria);
+            var _Grupo = objcnn.gruposTercero.Find(_Cateroria.CatIdGrupo);
 
-            Tuple<string, string> _datos = new AuditoriaBL().diferenciasAudit(new { TerEspecialidad = textoEspecialidad }, new { });
+            string espcComplete = $"{_Grupo.GruTexto} / {_Cateroria.CatTexto} / {_Especialidad.EspTexto}";
+
+            Tuple<string, string> _datos = new AuditoriaBL().diferenciasAudit( new { TerEspecialidad = espcComplete }, new { TerEspecialidad = "" });
 
             TerEspecialidad te = new TerEspecialidad();
 
@@ -253,7 +257,7 @@ namespace Code.Repository.RepositoryBL.Operations
 
             objcnn.terEspecialidad.Add(te);
 
-            objcnn.SaveChangesAuditoria(_datos.Item1, _datos.Item2, usuario, tercero, (int)TipoAuditoria.Especialidades, false, true, Opcion: "Mi perfil");
+            objcnn.SaveChangesAuditoria(_datos.Item1, _datos.Item2, usuario, tercero, (int)TipoAuditoria.Especialidades, false, true, Opcion: "Especialidades");
 
         }
 
@@ -262,18 +266,22 @@ namespace Code.Repository.RepositoryBL.Operations
         {
             ApplicationDatabaseContext objcnn = new ApplicationDatabaseContext();
 
-            string textoEspecialidad = objcnn.especialidadTercero.Find(id).EspTexto;
+            var _Especialidad = objcnn.especialidadTercero.Find(id);
+            var _Cateroria = objcnn.categoriasTercero.Find(_Especialidad.EspIdCategoria);
+            var _Grupo = objcnn.gruposTercero.Find(_Cateroria.CatIdGrupo);
+
+            string espcComplete = $"{_Grupo.GruTexto} / {_Cateroria.CatTexto} / {_Especialidad.EspTexto}";
 
             TerEspecialidad te = objcnn.terEspecialidad.Where(c => c.EspId == id && c.TerId == tercero).FirstOrDefault();
 
-            Tuple<string, string> _datos = new AuditoriaBL().diferenciasAudit( new { }, new { TerEspecialidad = textoEspecialidad });
+            Tuple<string, string> _datos = new AuditoriaBL().diferenciasAudit(new { TerEspecialidad = "" }, new { TerEspecialidad = espcComplete });
 
 
             if (te != null)
             {
                 objcnn.Entry(te).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
 
-                objcnn.SaveChangesAuditoria(_datos.Item1, _datos.Item2, usuario, tercero, (int)TipoAuditoria.Especialidades, true, false, Opcion: "Mi perfil");
+                objcnn.SaveChangesAuditoria(_datos.Item1, _datos.Item2, usuario, tercero, (int)TipoAuditoria.Especialidades, true, false, Opcion: "Especialidades");
 
             }
         }

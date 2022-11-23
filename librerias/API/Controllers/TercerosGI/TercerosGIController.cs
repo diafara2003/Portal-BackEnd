@@ -230,7 +230,7 @@ namespace API.Controllers.TercerosGI
 
             request.IdTercero = currentUser.idEmpresa;
 
-            return Ok(new TercerosGestionInformacionBL().SaveInfoTributaria(request));
+            return Ok(new TercerosGestionInformacionBL().SaveInfoTributaria(request, currentUser.idEmpresa, currentUser.id));
         }
 
         [HttpGet]

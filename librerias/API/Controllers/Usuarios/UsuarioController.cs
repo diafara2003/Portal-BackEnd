@@ -111,7 +111,7 @@ namespace API.Controllers.Usuarios
         public IActionResult PostCambiarEstado(CambiarEstadoUsuarioDTO request)
         {
             var sesion = _IUser.GetUser(HttpContext);
-            return Ok(new UsuarioBL().CambiarEstadoUsuario(request.usuario, request.activo ? estadoUsuario.Activo: estadoUsuario.Inactivo, sesion.idEmpresa,sesion.id));
+            return Ok(new UsuarioBL().CambiarEstadoUsuario(request.usuario, request.activo ? estadoUsuario.Activo: estadoUsuario.Inactivo,sesion.id));
         }
         /// <summary>
         /// Metodo encargado de enviar los datos del usuario por correo para ingresar al portal
